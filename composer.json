@@ -1,0 +1,13 @@
+{
+    "name": "networkteam/neos-mailobfuscator",
+    "type": "typo3-flow-package",
+    "description": "This package obfuscate mailto links to make spammers work harder. Intended for Neos.",
+    "require": {
+        "typo3/flow": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Networkteam\\Neos\\MailObfuscator": "Classes"
+        }
+    }
+}

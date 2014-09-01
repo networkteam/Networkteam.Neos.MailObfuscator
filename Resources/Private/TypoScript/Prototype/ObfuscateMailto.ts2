@@ -1,0 +1,9 @@
+# ConvertEmailLinksImplementation implementation
+#
+# replaces all occurrences of "mailto://<mailaddress>" by obfuscating javascript calls.
+#
+prototype(Networkteam.Neos:MailObfuscator) {
+@class = '\\Networkteam\\Neos\\MailObfuscator\\Typoscript\\ConvertEmailLinksImplementation'
+	value = ${value}
+	node = ${node}
+}

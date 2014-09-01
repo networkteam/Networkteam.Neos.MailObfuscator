@@ -1,0 +1,21 @@
+include: Prototype/ObfuscateMailto.ts2
+
+// Extend the Page prototype
+prototype(TYPO3.Neos:Page) {
+	// body or head depending on the position
+	body.javascripts {
+		mailobfuscation = TYPO3.TypoScript:Tag {
+			tagName = 'script'
+			attributes {
+				src = TYPO3.TypoScript:ResourceUri {
+					path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.js'
+				}
+			}
+		}
+	}
+}
+
+# Obfuscate mailto for all node types
+prototype(TYPO3.Neos:Content) {
+	@process.obfuscateMailto = Networkteam.Neos:MailObfuscator
+}

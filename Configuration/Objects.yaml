@@ -1,0 +1,5 @@
+Networkteam\Neos\MailObfuscator\String\Converter\EmailDisplayConverterInterface:
+  className: 'Networkteam\Neos\MailObfuscator\String\Converter\SimpleEmailConverter'
+
+Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefConverterInterface:
+  className: 'Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter'

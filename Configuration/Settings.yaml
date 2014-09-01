@@ -1,0 +1,5 @@
+TYPO3:
+  Neos:
+    typoScript:
+      autoInclude:
+        'Networkteam.Neos.MailObfuscator': TRUE
