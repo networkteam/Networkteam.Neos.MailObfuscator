@@ -1,6 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator;
-
+namespace Networkteam\Neos\MailObfuscator\String\Converter;
 /**
  * Copyright (C) 2014 networkteam GmbH
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
@@ -15,6 +14,13 @@ namespace Networkteam\Neos\MailObfuscator;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class Exception extends \Exception {
+interface EmailLinkNameConverterInterface {
 
+	/**
+	 * Return a string which should be displayed instead of the original email address
+	 *
+	 * @param string $emailAddress
+	 * @return string
+	 */
+	public function convert($emailAddress);
 }

@@ -1,23 +1,36 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\String\Converter;
 
-/***************************************************************
- *  (c) 2014 networkteam GmbH - all rights reserved
- ***************************************************************/
+/**
+ * Copyright (C) 2014 networkteam GmbH
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
 
 use TYPO3\Flow\Annotations as Flow;
 
-class Mailto2HrefObfuscatingConverter implements Mailto2HrefConverterInterface {
+class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface {
 
-	protected $offsetSeed;
+	/**
+	 * @var integer
+	 */
+	protected $randomOffset;
 
 	/**
 	 * @param string $mailAddress
 	 * @return string
 	 */
 	public function convert($mailAddress) {
-		$this->offsetSeed = rand(1,26);
-		return 'javascript:linkTo_UnCryptMailto(\'' . $this->blurEmailAddress($mailAddress) . '\', -' . $this->offsetSeed . ')';
+		$this->randomOffset = rand(1, 26);
+		return 'javascript:linkTo_UnCryptMailto(\'' . $this->blurEmailAddress($mailAddress) . '\', -' . $this->randomOffset . ')';
 	}
 
 	/**
@@ -31,6 +44,7 @@ class Mailto2HrefObfuscatingConverter implements Mailto2HrefConverterInterface {
 	/**
 	 * Encryption (or decryption) of a single character.
 	 * Within the given range the character is shifted with the supplied offset.
+	 * This method is taken from TYPO3 CMS
 	 *
 	 * @param integer $n Ordinal of input character
 	 * @param integer $start Start of range
@@ -50,6 +64,7 @@ class Mailto2HrefObfuscatingConverter implements Mailto2HrefConverterInterface {
 
 	/**
 	 * Encryption of email addresses for <A>-tags See the spam protection setup in TS 'config.'
+	 * This method is taken form TYPO3 CMS
 	 *
 	 * @param string $string Input string to en/decode: "mailto:blabla@bla.com
 	 * @param boolean $back If set, the process is reversed, effectively decoding, not encoding.
@@ -59,7 +74,7 @@ class Mailto2HrefObfuscatingConverter implements Mailto2HrefConverterInterface {
 		$out = '';
 		// like str_rot13() but with a variable offset and a wider character range
 		$len = strlen($string);
-		$offset = (int)$this->offsetSeed * ($back ? -1 : 1);
+		$offset = (int)$this->randomOffset * ($back ? -1 : 1);
 		for ($i = 0; $i < $len; $i++) {
 			$charValue = ord($string[$i]);
 			// 0-9 . , - + / :

@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator;
+namespace Networkteam\Neos\MailObfuscator\String\Converter;
 
 /**
  * Copyright (C) 2014 networkteam GmbH
@@ -15,6 +15,13 @@ namespace Networkteam\Neos\MailObfuscator;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class Exception extends \Exception {
+class RewriteAtCharConverter implements EmailLinkNameConverterInterface {
 
+	/**
+	 * @param string $emailAddress
+	 * @return string
+	 */
+	public function convert($emailAddress) {
+		return str_replace('@', ' (at) ', $emailAddress);
+	}
 }

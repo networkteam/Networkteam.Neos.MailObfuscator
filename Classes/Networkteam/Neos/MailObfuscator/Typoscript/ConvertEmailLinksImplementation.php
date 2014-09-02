@@ -1,9 +1,19 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\Typoscript;
 
-/***************************************************************
- *  (c) 2014 networkteam GmbH - all rights reserved
- ***************************************************************/
+/**
+ * Copyright (C) 2014 networkteam GmbH
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
 
 use Networkteam\Neos\Util\Exception;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
@@ -11,18 +21,18 @@ use TYPO3\Flow\Annotations as Flow;
 
 class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 
-	const PATTERN_MAIL_TO = '/href="mailto:([^"]*)/';
+	const PATTERN_MAIL_TO = '/(href=")mailto:([^"]*)/';
 
-	const PATTERN_MAIL_DISPLAY = '/href="mailto:[^"]*">([^<]*)/';
+	const PATTERN_MAIL_DISPLAY = '/(href="mailto:[^"]*">)([^<]*)/';
 
 	/**
-	 * @var \Networkteam\Neos\MailObfuscator\String\Converter\EmailDisplayConverterInterface
+	 * @var \Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInterface
 	 * @Flow\Inject
 	 */
-	protected $mailDisplayConverter;
+	protected $linkNameConverter;
 
 	/**
-	 * @var \Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefConverterInterface
+	 * @var \Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface
 	 * @Flow\Inject
 	 */
 	protected $mailToHrefConverter;
@@ -44,23 +54,23 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	public function evaluate() {
 		$text = $this->getValue();
 		if (!is_string($text)) {
-			throw new Exception(sprintf('Only strings can be processed by this TypoScript object, given: "%s".', gettype($text)), 1382624080);
+			throw new Exception(sprintf('Only strings can be processed by this TypoScript object, given: "%s".', gettype($text)), 1409659552);
 		}
 		$currentContext = $this->tsRuntime->getCurrentContext();
 		$node = $currentContext['node'];
 		if (!$node instanceof \TYPO3\TYPO3CR\Domain\Model\NodeInterface) {
-			throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1382624087);
+			throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
 		}
 		if ($node->getContext()->getWorkspace()->getName() !== 'live') {
 			return $text;
 		}
 		$self = $this;
 		$text = preg_replace_callback(self::PATTERN_MAIL_DISPLAY, function(array $matches) use ($self) {
-			return $self->convertMailDisplay($matches);
+			return $self->convertLinkName($matches);
 		}, $text);
 
-		return preg_replace_callback(self::PATTERN_MAIL_TO, function(array $matches) use ($self, $node) {
-			return $self->convertMailLink($matches, $node);
+		return preg_replace_callback(self::PATTERN_MAIL_TO, function(array $matches) use ($self) {
+			return $self->convertMailLink($matches);
 		}, $text);
 	}
 
@@ -68,18 +78,18 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	 * @param string $displayEmail
 	 * @return string
 	 */
-	protected function convertMailDisplay(array $matches) {
-		$replacedEmail = $this->mailDisplayConverter->convert($matches[1]);
-		return substr($matches[0], 0, strpos($matches[0], '>') + 1) . $replacedEmail;
+	public function convertLinkName(array $matches) {
+		$replacedEmail = $this->linkNameConverter->convert($matches[2]);
+		return $matches[1] . $replacedEmail;
 	}
 
 	/**
 	 * @param array $matches
-	 * @param $node
+	 * @return string
 	 */
-	protected function convertMailLink($matches, $node) {
-		$email = $matches[1];
+	public function convertMailLink($matches) {
+		$email = $matches[2];
 		$replacedHrefContent = $this->mailToHrefConverter->convert($email);
-		return 'href="' . $replacedHrefContent;
+		return  $matches[1] . htmlspecialchars($replacedHrefContent);
 	}
 }
