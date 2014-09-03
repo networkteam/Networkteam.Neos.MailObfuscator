@@ -25,26 +25,18 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface {
 	protected $randomOffset;
 
 	/**
-	 * @param string $mailAddress
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function convert($mailAddress) {
 		$this->randomOffset = rand(1, 26);
-		return 'javascript:linkTo_UnCryptMailto(\'' . $this->blurEmailAddress($mailAddress) . '\', -' . $this->randomOffset . ')';
-	}
-
-	/**
-	 * @param $emailAddress
-	 * @return string
-	 */
-	protected function blurEmailAddress($emailAddress) {
-		return $this->encryptEmail($emailAddress);
+		return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress) . '\', -' . $this->randomOffset . ')';
 	}
 
 	/**
 	 * Encryption (or decryption) of a single character.
 	 * Within the given range the character is shifted with the supplied offset.
-	 * This method is taken from TYPO3 CMS
+	 *
+	 * This method is taken from TYPO3 CMS.
 	 *
 	 * @param integer $n Ordinal of input character
 	 * @param integer $start Start of range
@@ -63,8 +55,9 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface {
 	}
 
 	/**
-	 * Encryption of email addresses for <A>-tags See the spam protection setup in TS 'config.'
-	 * This method is taken form TYPO3 CMS
+	 * Encryption of email addresses for <A>-tags
+	 *
+	 * This method is taken form TYPO3 CMS.
 	 *
 	 * @param string $string Input string to en/decode: "mailto:blabla@bla.com
 	 * @param boolean $back If set, the process is reversed, effectively decoding, not encoding.

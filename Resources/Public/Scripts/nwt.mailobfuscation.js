@@ -10,12 +10,15 @@
  *
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
+
+/**
+ * Uncrypt an obfuscated email address
  *
- * Code borrowed from TYPO3 CMS
+ * Uses the original implementation from TYPO3 CMS.
  */
 function linkTo_UnCryptMailto(s, offset) {
 
-	// decrypt helper function
 	function decryptCharcode(n,start,end,offset) {
 		n = n + offset;
 		if (offset > 0 && n > end) {
@@ -26,7 +29,6 @@ function linkTo_UnCryptMailto(s, offset) {
 		return String.fromCharCode(n);
 	}
 
-	// decrypt string
 	function decryptString(enc,offset) {
 		var dec = "";
 		var len = enc.length;

@@ -9,10 +9,10 @@
 #
 # You should have received a copy of the GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Networkteam.Neos:MailObfuscator is a processor to obfuscate links to email addresses
 #
-# ConvertEmailLinksImplementation implementation
-#
-# replaces all occurrences of "mailto://<mailaddress>" by the implemented strategy
+# Replaces all occurrences of "mailto:<emailAddress>" and email address labels using the configured implementation
 #
 prototype(Networkteam.Neos:MailObfuscator) {
 	@class = '\\Networkteam\\Neos\\MailObfuscator\\Typoscript\\ConvertEmailLinksImplementation'

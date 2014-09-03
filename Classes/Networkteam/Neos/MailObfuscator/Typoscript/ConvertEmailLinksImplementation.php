@@ -15,7 +15,7 @@ namespace Networkteam\Neos\MailObfuscator\Typoscript;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-use Networkteam\Neos\Util\Exception;
+use Networkteam\Neos\MailObfuscator\Exception;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 use TYPO3\Flow\Annotations as Flow;
 
@@ -50,6 +50,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	 * Evaluate this TypoScript object and return the result
 	 *
 	 * @return mixed
+	 * @throws \Networkteam\Neos\MailObfuscator\Exception
 	 */
 	public function evaluate() {
 		$text = $this->getValue();
@@ -61,7 +62,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 		if (!$node instanceof \TYPO3\TYPO3CR\Domain\Model\NodeInterface) {
 			throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
 		}
-		if ($node->getContext()->getWorkspace()->getName() !== 'live') {
+		if ($node->getContext()->getWorkspaceName() !== 'live') {
 			return $text;
 		}
 		$self = $this;
@@ -75,7 +76,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	}
 
 	/**
-	 * @param string $displayEmail
+	 * @param array $matches
 	 * @return string
 	 */
 	public function convertLinkName(array $matches) {

@@ -1,40 +1,61 @@
---------------------------------
- Neos MailObfuscator
---------------------------------
+-------------------
+Neos MailObfuscator
+-------------------
 
-In order to make life to spammers more difficult this extension provides obfuscation of email addresses. The email
-address is obfuscated by a rot13 like algorithm with variable offsets.
+In order to make life for spammers more difficult this package provides an obfuscation of email addresses.
+The email address is obfuscated by a rot13 like algorithm with random offsets.
 
-When the link is clicked the email address is unobfuscated by the same algorithm in javascript.
+When the link is clicked the email address is unobfuscated by the same algorithm in JavaScript:
 
-```
- <a href="mailto:foo@example.com">foo@example.com</a>
+```html
+<a href="mailto:foo@example.com">foo@example.com</a>
 ```
 
 will become
 
-```
- <a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">foo (at) example.com</a>
-```
-
-The replacement in done in 2 steps, it is possible to have something different displayed as linkname then as
-link target.
-
-```
- <a href="mailto:foo@example.com">Contact us</a>
+```html
+<a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">foo (at) example.com</a>
 ```
 
-This will become
+The replacement is done in 2 steps, thus it is possible to have a link label that is different from the email address:
 
+```html
+<a href="mailto:foo@example.com">Contact us</a>
 ```
- <a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">Contact us</a>
+
+will become
+
+```html
+<a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">Contact us</a>
 ```
 
 Installation
---------------------------------
+------------
+
+Install the composer package in your site package or distribution:
+
+```shell
+$ composer require networkteam/neos-mailobfuscator
+```
+
+There is no need for configuration, as a TypoScript processor is attached to all prototypes extending
+`TYPO3.Neos:Content`.
+
+Configuration
+-------------
+
+Obfuscation can be disabled for specific node types by unsetting the processor:
 
 ```
- $ composer require networkteam/neos-mailobfuscator
+prototype(Vendor.MyPackage:MyNodeType) {
+	@process.networkteamNeosMailObfuscator >
+}
 ```
 
-There is no need to configure something as the processor is attached to all content of a node type.
+The JavaScript include can be disabled for custom minification:
+
+```
+page = prototype(TYPO3.Neos:Page) {
+	body.javascripts.networkteamNeosMailObfuscator >
+}
+```
