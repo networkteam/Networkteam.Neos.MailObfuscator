@@ -59,3 +59,15 @@ page = prototype(TYPO3.Neos:Page) {
 	body.javascripts.networkteamNeosMailObfuscator >
 }
 ```
+
+Acknowledgments
+---------------
+
+Original email address obfuscation code by [TYPO3 CMS](http://www.typo3.org).
+
+Development sponsored by [networkteam GmbH - Neos Agentur](http://networkteam.com/typo3-cms/typo3-neos-agentur.html).
+
+License
+-------
+
+Licensed under GPLv2+, see [LICENSE](LICENSE)
