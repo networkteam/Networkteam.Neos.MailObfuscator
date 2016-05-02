@@ -83,7 +83,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	 * @return string
 	 */
 	public function convertLinkName(array $matches) {
-		$replacedEmail = $this->linkNameConverter->convert($matches[2]);
+		$replacedEmail = $this->linkNameConverter->convert(trim($matches[2]));
 		return $matches[1] . $replacedEmail;
 	}
 
@@ -92,7 +92,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 	 * @return string
 	 */
 	public function convertMailLink($matches) {
-		$email = $matches[2];
+		$email = trim($matches[2]);
 		$replacedHrefContent = $this->mailToHrefConverter->convert($email);
 		return  $matches[1] . htmlspecialchars($replacedHrefContent);
 	}

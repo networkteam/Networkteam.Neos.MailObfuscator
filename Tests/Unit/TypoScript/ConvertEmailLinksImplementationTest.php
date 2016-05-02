@@ -84,6 +84,10 @@ class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase
 			'email address outside of link' => array(
 				'Email test@example.com should not be replaced',
 				'Email test@example.com should not be replaced'
+			),
+			'email address with space at the beginning' => array(
+				'Email <a href="mailto: test@example.com">test@example.com</a>',
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
 			)
 		);
 	}
