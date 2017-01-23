@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\Typoscript;
+namespace Networkteam\Neos\MailObfuscator\Fusion;
 
 /*
  * Copyright (C) 2014 networkteam GmbH
@@ -15,12 +15,12 @@ namespace Networkteam\Neos\MailObfuscator\Typoscript;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use Networkteam\Neos\MailObfuscator\Exception;
 use Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInterface;
 use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface;
-use Neos\Flow\Annotations as Flow;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\Fusion\FusionObjects\AbstractFusionObject;
 
 class ConvertEmailLinksImplementation extends AbstractFusionObject
 {

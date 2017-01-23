@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
+namespace Networkteam\Neos\MailObfuscator\Tests\Unit\Fusion;
 
 /*
  * Copyright (C) 2014 networkteam GmbH
@@ -15,13 +15,13 @@ namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-use Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter;
-use Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter;
-use Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation;
-use Neos\Flow\Tests\UnitTestCase;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\Context;
+use Neos\Flow\Tests\UnitTestCase;
 use Neos\Fusion\Core\Runtime;
+use Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation;
+use Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter;
+use Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter;
 
 class ConvertEmailLinksImplementationTest extends UnitTestCase
 {
