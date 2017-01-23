@@ -19,8 +19,8 @@ use Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConve
 use Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter;
 use Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation;
 use Neos\Flow\Tests\UnitTestCase;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TYPO3CR\Domain\Service\Context;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Service\Context;
 use TYPO3\TypoScript\Core\Runtime;
 
 class ConvertEmailLinksImplementationTest extends UnitTestCase
