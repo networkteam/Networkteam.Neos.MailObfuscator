@@ -10,5 +10,10 @@
             "Networkteam\\Neos\\MailObfuscator\\": "Classes"
         }
     },
-    "license": "GPL-2.0+"
+    "license": "GPL-2.0+",
+    "extra": {
+        "applied-flow-migrations": [
+            "TYPO3.FLOW3-201201261636"
+        ]
+    }
 }
