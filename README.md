@@ -2,10 +2,10 @@
 Neos MailObfuscator
 -------------------
 
-In order to make life for spammers more difficult this package provides an obfuscation of email addresses.
+In order to make life for spammers more difficult, this package provides an obfuscation of email addresses.
 The email address is obfuscated by a rot13 like algorithm with random offsets.
 
-When the link is clicked the email address is unobfuscated by the same algorithm in JavaScript:
+When the link is clicked, the email address is unobfuscated by the same algorithm in JavaScript:
 
 ```html
 <a href="mailto:foo@example.com">foo@example.com</a>
@@ -48,7 +48,7 @@ Obfuscation can be disabled for specific node types by unsetting the processor:
 
 ```
 prototype(Vendor.MyPackage:MyNodeType) {
-	@process.networkteamNeosMailObfuscator >
+    @process.networkteamNeosMailObfuscator >
 }
 ```
 
@@ -56,7 +56,7 @@ The JavaScript include can be disabled for custom minification:
 
 ```
 page = prototype(TYPO3.Neos:Page) {
-	body.javascripts.networkteamNeosMailObfuscator >
+    body.javascripts.networkteamNeosMailObfuscator >
 }
 ```
 
@@ -70,4 +70,4 @@ Development sponsored by [networkteam GmbH - Neos Agentur](http://networkteam.co
 License
 -------
 
-Licensed under GPLv2+, see [LICENSE](LICENSE)
+Licensed under GPLv2+, see [LICENSE](LICENSE).

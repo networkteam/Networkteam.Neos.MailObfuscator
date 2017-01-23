@@ -3,12 +3,12 @@
     "type": "typo3-flow-plugin",
     "description": "A mail address and link obfuscation plugin for TYPO3 Neos",
     "require": {
-        "typo3/neos": "*"
+        "typo3/neos": "<3.0"
     },
     "autoload": {
-        "psr-0": {
-            "Networkteam\\Neos\\MailObfuscator": "Classes"
+        "psr-4": {
+            "Networkteam\\Neos\\MailObfuscator\\": "Classes"
         }
     },
-    "license": ["GPL-2.0+"]
+    "license": "GPL-2.0+"
 }

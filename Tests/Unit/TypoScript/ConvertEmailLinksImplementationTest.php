@@ -1,7 +1,7 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
 
-/**
+/*
  * Copyright (C) 2014 networkteam GmbH
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
  * Public License as published by the Free Software Foundation; either version 2 of the License, or
@@ -15,80 +15,91 @@ namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase {
+use Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter;
+use Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter;
+use Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation;
+use TYPO3\Flow\Tests\UnitTestCase;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use TYPO3\TYPO3CR\Domain\Service\Context;
+use TYPO3\TypoScript\Core\Runtime;
 
-	/**
-	 * @var \Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation
-	 */
-	protected $convertEmailLinks;
+class ConvertEmailLinksImplementationTest extends UnitTestCase
+{
+    /**
+     * @var ConvertEmailLinksImplementation
+     */
+    protected $convertEmailLinks;
 
-	/**
-	 * @var \TYPO3\TypoScript\Core\Runtime
-	 */
-	protected $mockTsRuntime;
+    /**
+     * @var Runtime
+     */
+    protected $mockTsRuntime;
 
-	/**
-	 * @var \TYPO3\TYPO3CR\Domain\Service\Context
-	 */
-	protected $mockContext;
+    /**
+     * @var Context
+     */
+    protected $mockContext;
 
-	/**
-	 * @var \TYPO3\TYPO3CR\Domain\Model\NodeInterface
-	 */
-	protected $mockNode;
+    /**
+     * @var NodeInterface
+     */
+    protected $mockNode;
 
-	public function setUp() {
-		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
+    public function setUp()
+    {
+        $this->convertEmailLinks = $this->getAccessibleMock(ConvertEmailLinksImplementation::class, ['getValue'], [], '', false);
 
-		$this->mockContext = $this->getMockBuilder('TYPO3\TYPO3CR\Domain\Service\Context')->disableOriginalConstructor()->getMock();
-		$this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
+        $this->mockContext = $this->getMockBuilder(Context::class)->disableOriginalConstructor()->getMock();
+        $this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
 
-		$this->mockNode = $this->getMockBuilder('TYPO3\TYPO3CR\Domain\Model\NodeInterface')->getMock();
-		$this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
+        $this->mockNode = $this->getMockBuilder(NodeInterface::class)->getMock();
+        $this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
 
-		$this->mockTsRuntime = $this->getMockBuilder('TYPO3\TypoScript\Core\Runtime')->disableOriginalConstructor()->getMock();
-		$this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(array('node' => $this->mockNode)));
+        $this->mockTsRuntime = $this->getMockBuilder(Runtime::class)->disableOriginalConstructor()->getMock();
+        $this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(['node' => $this->mockNode]));
 
-		$this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
-		$this->convertEmailLinks->_set('linkNameConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter());
-		$this->convertEmailLinks->_set('mailToHrefConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter());
+        $this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
+        $this->convertEmailLinks->_set('linkNameConverter', new RewriteAtCharConverter());
+        $this->convertEmailLinks->_set('mailToHrefConverter', new Mailto2HrefObfuscatingConverter());
 
-		srand(10);
-	}
+        mt_srand(10);
+    }
 
-	/**
-	 * @test
-	 * @dataProvider emailTexts
-	 */
-	public function emailsAreConverted($rawText, $expectedText) {
-		$this->convertEmailLinks->expects($this->atLeastOnce())->method('getValue')->will($this->returnValue($rawText));
+    /**
+     * @test
+     * @dataProvider emailTexts
+     */
+    public function emailsAreConverted($rawText, $expectedText)
+    {
+        $this->convertEmailLinks->expects($this->atLeastOnce())->method('getValue')->will($this->returnValue($rawText));
 
-		$actualResult = $this->convertEmailLinks->evaluate();
-		$this->assertSame($expectedText, $actualResult);
-	}
+        $actualResult = $this->convertEmailLinks->evaluate();
+        $this->assertSame($expectedText, $actualResult);
+    }
 
-	public function emailTexts() {
-		return array(
-			'just some text not to touch' => array(
-				' this Is some string with line' . chr(10) . ' breaks, special chärß and leading/trailing space  ',
-				' this Is some string with line' . chr(10) . ' breaks, special chärß and leading/trailing space  '
-			),
-			'single mail link in text' => array(
-				'Email <a href="mailto:test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
-			),
-			'multiple mail links in text' => array(
-				'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">foobar (at) example.com</a>'
-			),
-			'email address outside of link' => array(
-				'Email test@example.com should not be replaced',
-				'Email test@example.com should not be replaced'
-			),
-			'email address with space at the beginning' => array(
-				'Email <a href="mailto: test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
-			)
-		);
-	}
+    public function emailTexts()
+    {
+        return [
+            'just some text not to touch' => [
+                ' this Is some string with line' . chr(10) . ' breaks, special chärß and leading/trailing space  ',
+                ' this Is some string with line' . chr(10) . ' breaks, special chärß and leading/trailing space  '
+            ],
+            'single mail link in text' => [
+                'Email <a href="mailto:test@example.com">test@example.com</a>',
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+            ],
+            'multiple mail links in text' => [
+                'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">foobar (at) example.com</a>'
+            ],
+            'email address outside of link' => [
+                'Email test@example.com should not be replaced',
+                'Email test@example.com should not be replaced'
+            ],
+            'email address with space at the beginning' => [
+                'Email <a href="mailto: test@example.com">test@example.com</a>',
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+            ]
+        ];
+    }
 }
