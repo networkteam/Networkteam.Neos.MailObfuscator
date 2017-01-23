@@ -12,6 +12,6 @@
 
 Neos:
   Neos:
-    typoScript:
+    fusion:
       autoInclude:
         Networkteam.Neos.MailObfuscator: true
