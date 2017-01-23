@@ -20,9 +20,9 @@ use Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInter
 use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 
-class ConvertEmailLinksImplementation extends AbstractTypoScriptObject
+class ConvertEmailLinksImplementation extends AbstractFusionObject
 {
     const PATTERN_MAIL_TO = '/(href=")mailto:([^"]*)/';
 
