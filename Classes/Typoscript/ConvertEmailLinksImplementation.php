@@ -18,7 +18,7 @@ namespace Networkteam\Neos\MailObfuscator\Typoscript;
 use Networkteam\Neos\MailObfuscator\Exception;
 use Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInterface;
 use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
 

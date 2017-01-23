@@ -15,7 +15,7 @@ namespace Networkteam\Neos\MailObfuscator\String\Converter;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
 {
