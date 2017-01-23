@@ -21,7 +21,7 @@ use Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation;
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\Context;
-use TYPO3\TypoScript\Core\Runtime;
+use Neos\Fusion\Core\Runtime;
 
 class ConvertEmailLinksImplementationTest extends UnitTestCase
 {

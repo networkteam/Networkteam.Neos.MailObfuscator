@@ -20,7 +20,7 @@ use Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInter
 use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
 
 class ConvertEmailLinksImplementation extends AbstractTypoScriptObject
 {
