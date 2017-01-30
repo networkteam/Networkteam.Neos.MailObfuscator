@@ -55,7 +55,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
         if (!is_string($text)) {
             throw new Exception(sprintf('Only strings can be processed by this TypoScript object, given: "%s".', gettype($text)), 1409659552);
         }
-        $currentContext = $this->tsRuntime->getCurrentContext();
+        $currentContext = $this->getRuntime()->getCurrentContext();
         $node = $currentContext['node'];
         if (!$node instanceof NodeInterface) {
             throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
@@ -80,7 +80,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
      */
     public function getValue()
     {
-        return $this->tsValue('value');
+        return $this->fusionValue('value');
     }
 
     /**
