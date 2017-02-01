@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
+namespace Networkteam\Neos\MailObfuscator\Tests\Unit\Fusion;
 
 /**
  * Copyright (C) 2014 networkteam GmbH
@@ -15,41 +15,43 @@ namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase {
+use Neos\Flow\Tests\UnitTestCase;
+
+class ConvertEmailLinksImplementationTest extends UnitTestCase {
 
 	/**
-	 * @var \Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation
+	 * @var \Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation
 	 */
 	protected $convertEmailLinks;
 
 	/**
-	 * @var \TYPO3\TypoScript\Core\Runtime
+	 * @var \Neos\Fusion\Core\Runtime
 	 */
-	protected $mockTsRuntime;
+	protected $mockFusionRuntime;
 
 	/**
-	 * @var \TYPO3\TYPO3CR\Domain\Service\Context
+	 * @var \Neos\ContentRepository\Domain\Service\Context
 	 */
 	protected $mockContext;
 
 	/**
-	 * @var \TYPO3\TYPO3CR\Domain\Model\NodeInterface
+	 * @var \Neos\ContentRepository\Domain\Model\NodeInterface
 	 */
 	protected $mockNode;
 
 	public function setUp() {
-		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
+		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
 
-		$this->mockContext = $this->getMockBuilder('TYPO3\TYPO3CR\Domain\Service\Context')->disableOriginalConstructor()->getMock();
+		$this->mockContext = $this->getMockBuilder('Neos\ContentRepository\Domain\Service\Context')->disableOriginalConstructor()->getMock();
 		$this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
 
-		$this->mockNode = $this->getMockBuilder('TYPO3\TYPO3CR\Domain\Model\NodeInterface')->getMock();
+		$this->mockNode = $this->getMockBuilder('Neos\ContentRepository\Domain\Model\NodeInterface')->getMock();
 		$this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
 
-		$this->mockTsRuntime = $this->getMockBuilder('TYPO3\TypoScript\Core\Runtime')->disableOriginalConstructor()->getMock();
-		$this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(array('node' => $this->mockNode)));
+		$this->mockFusionRuntime = $this->getMockBuilder('Neos\Fusion\Core\Runtime')->disableOriginalConstructor()->getMock();
+		$this->mockFusionRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(array('node' => $this->mockNode)));
 
-		$this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
+		$this->convertEmailLinks->_set('runtime', $this->mockFusionRuntime);
 		$this->convertEmailLinks->_set('linkNameConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter());
 		$this->convertEmailLinks->_set('mailToHrefConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter());
 

@@ -38,8 +38,8 @@ Install the composer package in your site package or distribution:
 $ composer require networkteam/neos-mailobfuscator
 ```
 
-There is no need for configuration, as a TypoScript processor is attached to all prototypes extending
-`TYPO3.Neos:Content`.
+There is no need for configuration, as a Fusion processor is attached to all prototypes extending
+`Neos.Neos:Content`.
 
 Configuration
 -------------
@@ -55,7 +55,7 @@ prototype(Vendor.MyPackage:MyNodeType) {
 The JavaScript include can be disabled for custom minification:
 
 ```
-page = prototype(TYPO3.Neos:Page) {
+page = prototype(Neos.Neos:Page) {
 	body.javascripts.networkteamNeosMailObfuscator >
 }
 ```
