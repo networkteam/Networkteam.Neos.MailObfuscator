@@ -10,23 +10,12 @@
 # You should have received a copy of the GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-include: Prototype/MailObfuscator.ts2
-
-# Extend the Page prototype to include the obfuscation JavaScript
-prototype(TYPO3.Neos:Page) {
-	body.javascripts {
-		networkteamNeosMailObfuscator = TYPO3.TypoScript:Tag {
-			tagName = 'script'
-			attributes {
-				src = TYPO3.TypoScript:ResourceUri {
-					path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.min.js'
-				}
-			}
-		}
-	}
-}
-
-# Obfuscate all node types extending TYPO3.Neos:Content by default
-prototype(TYPO3.Neos:Content) {
-	@process.networkteamNeosMailObfuscator = Networkteam.Neos:MailObfuscator
+# Networkteam.Neos:MailObfuscator is a processor to obfuscate links to email addresses
+#
+# Replaces all occurrences of "mailto:<emailAddress>" and email address labels using the configured implementation
+#
+prototype(Networkteam.Neos:MailObfuscator) {
+	@class = '\\Networkteam\\Neos\\MailObfuscator\\Fusion\\ConvertEmailLinksImplementation'
+	value = ${value}
+	node = ${node}
 }
