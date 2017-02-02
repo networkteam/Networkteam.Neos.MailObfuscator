@@ -1,11 +1,9 @@
--------------------
-Neos MailObfuscator
--------------------
+# Neos MailObfuscator
 
-In order to make life for spammers more difficult this package provides an obfuscation of email addresses.
+In order to make life for spammers more difficult, this package provides an obfuscation of email addresses.
 The email address is obfuscated by a rot13 like algorithm with random offsets.
 
-When the link is clicked the email address is unobfuscated by the same algorithm in JavaScript:
+When the link is clicked, the email address is unobfuscated by the same algorithm in JavaScript:
 
 ```html
 <a href="mailto:foo@example.com">foo@example.com</a>
@@ -29,8 +27,7 @@ will become
 <a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">Contact us</a>
 ```
 
-Installation
-------------
+## Installation
 
 Install the composer package in your site package or distribution:
 
@@ -38,36 +35,42 @@ Install the composer package in your site package or distribution:
 $ composer require networkteam/neos-mailobfuscator
 ```
 
-There is no need for configuration, as a TypoScript processor is attached to all prototypes extending
-`TYPO3.Neos:Content`.
+There is no need for configuration, as a Fusion processor is attached to all prototypes extending
+`Neos.Neos:Content`.
 
-Configuration
--------------
+### Compatibility
+
+See the following table for the correct plugin version to choose:
+
+| Neos CMS | Plugin version |
+| -------- | -------------- |
+| >= 3.0   | 2.x            |
+| < 3.0    | 1.x            |
+
+## Configuration
 
 Obfuscation can be disabled for specific node types by unsetting the processor:
 
 ```
 prototype(Vendor.MyPackage:MyNodeType) {
-	@process.networkteamNeosMailObfuscator >
+    @process.networkteamNeosMailObfuscator >
 }
 ```
 
 The JavaScript include can be disabled for custom minification:
 
 ```
-page = prototype(TYPO3.Neos:Page) {
-	body.javascripts.networkteamNeosMailObfuscator >
+page = prototype(Neos.Neos:Page) {
+    body.javascripts.networkteamNeosMailObfuscator >
 }
 ```
 
-Acknowledgments
----------------
+## Acknowledgments
 
 Original email address obfuscation code by [TYPO3 CMS](http://www.typo3.org).
 
-Development sponsored by [networkteam GmbH - Neos Agentur](http://networkteam.com/typo3-cms/typo3-neos-agentur.html).
+Development sponsored by [networkteam GmbH - Neos Agentur](https://networkteam.com/fokus/neos-cms.html).
 
-License
--------
+## License
 
-Licensed under GPLv2+, see [LICENSE](LICENSE)
+Licensed under GPLv2+, see [LICENSE](LICENSE).

@@ -1,7 +1,7 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator;
+namespace Networkteam\Neos\MailObfuscator\String\Converter;
 
-/**
+/*
  * Copyright (C) 2014 networkteam GmbH
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
  * Public License as published by the Free Software Foundation; either version 2 of the License, or
@@ -15,6 +15,15 @@ namespace Networkteam\Neos\MailObfuscator;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class Exception extends \Exception {
-
+interface MailtoLinkConverterInterface
+{
+    /**
+     * The parameter given is the email address without the mailto:
+     * As return value the replacement for the whole href attribute is expected
+     *
+     * @param string $mailAddress
+     *
+     * @return string
+     */
+    public function convert($mailAddress);
 }

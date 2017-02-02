@@ -15,7 +15,8 @@
 # Replaces all occurrences of "mailto:<emailAddress>" and email address labels using the configured implementation
 #
 prototype(Networkteam.Neos:MailObfuscator) {
-	@class = '\\Networkteam\\Neos\\MailObfuscator\\Typoscript\\ConvertEmailLinksImplementation'
-	value = ${value}
-	node = ${node}
+    @class = '\\Networkteam\\Neos\\MailObfuscator\\Fusion\\ConvertEmailLinksImplementation'
+
+    value = ${value}
+    node = ${node}
 }

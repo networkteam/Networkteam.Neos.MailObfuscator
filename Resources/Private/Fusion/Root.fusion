@@ -10,23 +10,19 @@
 # You should have received a copy of the GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-include: Prototype/MailObfuscator.ts2
+include: Prototype/MailObfuscator.fusion
 
 # Extend the Page prototype to include the obfuscation JavaScript
-prototype(TYPO3.Neos:Page) {
-	body.javascripts {
-		networkteamNeosMailObfuscator = TYPO3.TypoScript:Tag {
-			tagName = 'script'
-			attributes {
-				src = TYPO3.TypoScript:ResourceUri {
-					path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.min.js'
-				}
-			}
-		}
-	}
+prototype(Page) {
+    body.javascripts.networkteamNeosMailObfuscator = Neos.Fusion:Tag {
+        tagName = 'script'
+        attributes.src = Neos.Fusion:ResourceUri {
+            path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.min.js'
+        }
+    }
 }
 
-# Obfuscate all node types extending TYPO3.Neos:Content by default
-prototype(TYPO3.Neos:Content) {
-	@process.networkteamNeosMailObfuscator = Networkteam.Neos:MailObfuscator
+# Obfuscate all node types extending Neos:Content by default
+prototype(Content) {
+    @process.networkteamNeosMailObfuscator = Networkteam.Neos:MailObfuscator
 }
