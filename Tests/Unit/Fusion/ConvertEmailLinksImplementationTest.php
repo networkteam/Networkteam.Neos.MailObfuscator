@@ -33,7 +33,7 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
     /**
      * @var Runtime
      */
-    protected $mockTsRuntime;
+    protected $mockRuntime;
 
     /**
      * @var Context
@@ -55,14 +55,13 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
         $this->mockNode = $this->getMockBuilder(NodeInterface::class)->getMock();
         $this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
 
-        $this->mockTsRuntime = $this->getMockBuilder(Runtime::class)->disableOriginalConstructor()->getMock();
-        $this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(['node' => $this->mockNode]));
+        $this->mockRuntime = $this->getMockBuilder(Runtime::class)->disableOriginalConstructor()->getMock();
+        $this->mockRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(['node' => $this->mockNode]));
 
-        $this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
+        $this->convertEmailLinks->_set('runtime', $this->mockRuntime);
         $this->convertEmailLinks->_set('linkNameConverter', new RewriteAtCharConverter());
-        $this->convertEmailLinks->_set('mailToHrefConverter', new Mailto2HrefObfuscatingConverter());
+        $this->convertEmailLinks->_set('mailToHrefConverter', new Mailto2HrefObfuscatingConverter(15));
 
-        mt_srand(10);
     }
 
     /**
@@ -90,7 +89,7 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ],
             'multiple mail links in text' => [
                 'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
-                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">foobar (at) example.com</a>'
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'uddqpgOtmpbeat-rdb\', -15)">foobar (at) example.com</a>'
             ],
             'email address outside of link' => [
                 'Email test@example.com should not be replaced',

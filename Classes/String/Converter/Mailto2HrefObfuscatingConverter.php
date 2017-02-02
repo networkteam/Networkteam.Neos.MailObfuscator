@@ -19,19 +19,32 @@ use Neos\Flow\Annotations as Flow;
 
 class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
 {
+
     /**
-     * @var integer
+     * @var int
      */
     protected $randomOffset;
+
+    /**
+     * @param int $randomOffset If not-null a fixed random offset will be used (useful for testing, but not for production)
+     */
+    public function __construct(int $randomOffset = null)
+    {
+        $this->randomOffset = $randomOffset;
+    }
 
     /**
      * @inheritDoc
      */
     public function convert($mailAddress)
     {
-        $this->randomOffset = random_int(1, 26);
+        if ($this->randomOffset !== null) {
+            $randomOffset = $this->randomOffset;
+        } else {
+            $randomOffset = random_int(1, 26);
+        }
 
-        return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress) . '\', -' . $this->randomOffset . ')';
+        return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress, $randomOffset) . '\', -' . $randomOffset . ')';
     }
 
     /**
@@ -40,16 +53,15 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
      * This method is taken form TYPO3 CMS.
      *
      * @param string $string Input string to en/decode: "mailto:blabla@bla.com"
-     * @param boolean $back If set, the process is reversed, effectively decoding, not encoding.
-     *
+     * @param int $randomOffset The random offset to use
      * @return string encoded/decoded version of $string
      */
-    protected function encryptEmail($string, $back = false)
+    protected function encryptEmail(string $string, int $randomOffset): string
     {
         $out = '';
         // like str_rot13() but with a variable offset and a wider character range
         $len = strlen($string);
-        $offset = (int)$this->randomOffset * ($back ? -1 : 1);
+        $offset = $randomOffset;
         for ($i = 0; $i < $len; $i++) {
             $charValue = ord($string[$i]);
             // 0-9 . , - + / :
@@ -82,7 +94,7 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
      *
      * @return string encoded/decoded version of character
      */
-    protected function encryptCharcode($n, $start, $end, $offset)
+    protected function encryptCharcode($n, $start, $end, $offset): string
     {
         $n += $offset;
         if ($offset > 0 && $n > $end) {
