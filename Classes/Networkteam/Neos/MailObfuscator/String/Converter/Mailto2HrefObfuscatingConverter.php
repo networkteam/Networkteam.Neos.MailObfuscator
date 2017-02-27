@@ -36,7 +36,7 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface {
 	 * Encryption (or decryption) of a single character.
 	 * Within the given range the character is shifted with the supplied offset.
 	 *
-	 * This method is taken from TYPO3 CMS.
+	 * This method is taken from TYPO3 CMS and slightly improved.
 	 *
 	 * @param integer $n Ordinal of input character
 	 * @param integer $start Start of range
@@ -45,7 +45,7 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface {
 	 * @return string encoded/decoded version of character
 	 */
 	protected function encryptCharcode($n, $start, $end, $offset) {
-		$n = $n + $offset;
+		$n += $offset % ($end - $start + 1);
 		if ($offset > 0 && $n > $end) {
 			$n = $start + ($n - $end - 1);
 		} elseif ($offset < 0 && $n < $start) {
