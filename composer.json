@@ -4,7 +4,7 @@
     "description": "A email address and link obfuscation plugin for Neos CMS",
     "require": {
         "php": ">=7.0",
-        "neos/neos": "^3.0"
+        "neos/neos": "^3.0 || ^4.0"
     },
     "autoload": {
         "psr-4": {
