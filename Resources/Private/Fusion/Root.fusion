@@ -13,7 +13,7 @@
 include: Prototype/MailObfuscator.fusion
 
 # Extend the Page prototype to include the obfuscation JavaScript
-prototype(Page) {
+prototype(Neos.Neos:Page) {
     body.javascripts.networkteamNeosMailObfuscator = Neos.Fusion:Tag {
         tagName = 'script'
         attributes.src = Neos.Fusion:ResourceUri {
@@ -23,6 +23,6 @@ prototype(Page) {
 }
 
 # Obfuscate all node types extending Neos:Content by default
-prototype(Content) {
+prototype(Neos.Neos:Content) {
     @process.networkteamNeosMailObfuscator = Networkteam.Neos:MailObfuscator
 }
