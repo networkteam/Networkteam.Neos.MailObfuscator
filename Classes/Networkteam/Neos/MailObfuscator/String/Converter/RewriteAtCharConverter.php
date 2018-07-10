@@ -1,7 +1,7 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\String\Converter;
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Copyright (C) 2014 networkteam GmbH

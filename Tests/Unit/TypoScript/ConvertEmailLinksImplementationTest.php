@@ -1,7 +1,7 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Copyright (C) 2014 networkteam GmbH
@@ -17,7 +17,7 @@ use TYPO3\Flow\Annotations as Flow;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase {
+class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase {
 
 	/**
 	 * @var \Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation
