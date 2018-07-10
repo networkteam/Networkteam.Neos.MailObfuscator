@@ -62,7 +62,7 @@ class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
 		}
 		$currentContext = $this->tsRuntime->getCurrentContext();
 		$node = $currentContext['node'];
-		if (!$node instanceof \TYPO3\TYPO3CR\Domain\Model\NodeInterface) {
+		if (!$node instanceof \Neos\ContentRepository\Domain\Model\NodeInterface) {
 			throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
 		}
 		if ($node->getContext()->getWorkspaceName() !== 'live') {
