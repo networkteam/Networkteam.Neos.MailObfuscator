@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\Typoscript;
+namespace Networkteam\Neos\MailObfuscator\Fusion;
 
 /**
  * Copyright (C) 2014 networkteam GmbH
@@ -43,11 +43,11 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject {
 	 * @return string
 	 */
 	public function getValue() {
-		return $this->tsValue('value');
+		return $this->fusionValue('value');
 	}
 
 	/**
-	 * Evaluate this TypoScript object and return the result
+	 * Evaluate this Fusion object and return the result
 	 *
 	 * @return mixed
 	 * @throws \Networkteam\Neos\MailObfuscator\Exception
@@ -60,7 +60,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject {
 		if (!is_string($text)) {
 			throw new Exception(sprintf('Only strings can be processed by this TypoScript object, given: "%s".', gettype($text)), 1409659552);
 		}
-		$currentContext = $this->tsRuntime->getCurrentContext();
+		$currentContext = $this->getRuntime()->getCurrentContext();
 		$node = $currentContext['node'];
 		if (!$node instanceof \Neos\ContentRepository\Domain\Model\NodeInterface) {
 			throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);

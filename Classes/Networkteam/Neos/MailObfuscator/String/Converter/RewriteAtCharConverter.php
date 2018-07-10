@@ -21,7 +21,7 @@ class RewriteAtCharConverter implements EmailLinkNameConverterInterface
 {
 
     /**
-     * @Flow\Inject(setting="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
+     * @Flow\InjectConfiguration(path="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
      * @var array
      */
     protected $replacementString;
@@ -33,5 +33,12 @@ class RewriteAtCharConverter implements EmailLinkNameConverterInterface
     public function convert($emailAddress)
     {
         return str_replace('@', $this->replacementString, $emailAddress);
+    }
+
+    /**
+     * @param string $replacementString
+     */
+    public function setReplacementString($replacementString) {
+        $this->replacementString = $replacementString;
     }
 }

@@ -3,7 +3,7 @@
     "type": "typo3-flow-plugin",
     "description": "A mail address and link obfuscation plugin for TYPO3 Neos",
     "require": {
-        "typo3/neos": "*"
+        "neos/neos": "^4.0"
     },
     "autoload": {
         "psr-0": {

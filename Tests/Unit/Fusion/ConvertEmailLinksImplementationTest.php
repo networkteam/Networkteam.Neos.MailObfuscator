@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
+namespace Networkteam\Neos\MailObfuscator\Tests\Unit\Fusion;
 
 use Neos\Flow\Annotations as Flow;
 
@@ -20,7 +20,7 @@ use Neos\Flow\Annotations as Flow;
 class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase {
 
 	/**
-	 * @var \Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation
+	 * @var \Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation
 	 */
 	protected $convertEmailLinks;
 
@@ -39,14 +39,8 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 	 */
 	protected $mockNode;
 
-    /**
-     * @Flow\Inject(setting="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
-     * @var array
-     */
-    protected $replacementString;
-
 	public function setUp() {
-		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
+		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
 
 		$this->mockContext = $this->getMockBuilder('Neos\ContentRepository\Domain\Service\Context')->disableOriginalConstructor()->getMock();
 		$this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
@@ -58,7 +52,9 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 		$this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(array('node' => $this->mockNode)));
 
 		$this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
-		$this->convertEmailLinks->_set('linkNameConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter());
+		$linkNameConverter = new \Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter();
+		$linkNameConverter->setReplacementString(' (at) ');
+		$this->convertEmailLinks->_set('linkNameConverter', $linkNameConverter);
 		$this->convertEmailLinks->_set('mailToHrefConverter', new \Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter());
 
 		srand(10);
@@ -83,11 +79,11 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 			),
 			'single mail link in text' => array(
 				'Email <a href="mailto:test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'paopVatwilha4yki\', -22)">test (at) example.com</a>'
 			),
 			'multiple mail links in text' => array(
 				'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">test' . $this->replacementString . 'example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'paopVatwilha4yki\', -22)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'raanmdLqjmybxq:oay\', -12)">foobar (at) example.com</a>'
 			),
 			'email address outside of link' => array(
 				'Email test@example.com should not be replaced',
@@ -95,7 +91,7 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 			),
 			'email address with space at the beginning' => array(
 				'Email <a href="mailto: test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'paopVatwilha4yki\', -22)">test (at) example.com</a>'
 			)
 		);
 	}
