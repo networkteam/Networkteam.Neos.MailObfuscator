@@ -25,7 +25,7 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 	protected $convertEmailLinks;
 
 	/**
-	 * @var \TYPO3\TypoScript\Core\Runtime
+	 * @var \Neos\Fusion\Core\Runtime
 	 */
 	protected $mockTsRuntime;
 
@@ -54,7 +54,7 @@ class ConvertEmailLinksImplementationTest extends \Neos\Flow\Tests\UnitTestCase 
 		$this->mockNode = $this->getMockBuilder('Neos\ContentRepository\Domain\Model\NodeInterface')->getMock();
 		$this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
 
-		$this->mockTsRuntime = $this->getMockBuilder('TYPO3\TypoScript\Core\Runtime')->disableOriginalConstructor()->getMock();
+		$this->mockTsRuntime = $this->getMockBuilder('Neos\Fusion\Core\Runtime')->disableOriginalConstructor()->getMock();
 		$this->mockTsRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(array('node' => $this->mockNode)));
 
 		$this->convertEmailLinks->_set('tsRuntime', $this->mockTsRuntime);
