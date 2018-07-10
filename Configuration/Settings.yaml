@@ -15,3 +15,8 @@ TYPO3:
     typoScript:
       autoInclude:
         'Networkteam.Neos.MailObfuscator': TRUE
+
+Networkteam:
+  Neos:
+    MailObfuscator:
+      atCharReplacementString: ' (at) '
