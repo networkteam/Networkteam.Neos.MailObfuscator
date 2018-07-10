@@ -16,10 +16,10 @@ namespace Networkteam\Neos\MailObfuscator\Typoscript;
  */
 
 use Networkteam\Neos\MailObfuscator\Exception;
-use Neos\Fusion\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use Neos\Flow\Annotations as Flow;
 
-class ConvertEmailLinksImplementation extends AbstractTypoScriptObject {
+class ConvertEmailLinksImplementation extends AbstractFusionObject {
 
 	const PATTERN_MAIL_TO = '/(href=")mailto:([^"]*)/';
 
