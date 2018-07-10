@@ -1,6 +1,8 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\Tests\Unit\TypoScript;
 
+use TYPO3\Flow\Annotations as Flow;
+
 /**
  * Copyright (C) 2014 networkteam GmbH
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
@@ -36,6 +38,12 @@ class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase
 	 * @var \TYPO3\TYPO3CR\Domain\Model\NodeInterface
 	 */
 	protected $mockNode;
+
+    /**
+     * @Flow\Inject(setting="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
+     * @var array
+     */
+    protected $replacementString;
 
 	public function setUp() {
 		$this->convertEmailLinks = $this->getAccessibleMock('Networkteam\Neos\MailObfuscator\Typoscript\ConvertEmailLinksImplementation', array('getValue'), array(), '', FALSE);
@@ -75,11 +83,11 @@ class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase
 			),
 			'single mail link in text' => array(
 				'Email <a href="mailto:test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a>'
 			),
 			'multiple mail links in text' => array(
 				'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">foobar (at) example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'veerqhPunqcfbu.sec\', -16)">test' . $this->replacementString . 'example.com</a>'
 			),
 			'email address outside of link' => array(
 				'Email test@example.com should not be replaced',
@@ -87,7 +95,7 @@ class ConvertEmailLinksImplementationTest extends \TYPO3\Flow\Tests\UnitTestCase
 			),
 			'email address with space at the beginning' => array(
 				'Email <a href="mailto: test@example.com">test@example.com</a>',
-				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+				'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test' . $this->replacementString . 'example.com</a>'
 			)
 		);
 	}

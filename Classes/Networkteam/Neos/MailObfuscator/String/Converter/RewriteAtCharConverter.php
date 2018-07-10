@@ -1,6 +1,8 @@
 <?php
 namespace Networkteam\Neos\MailObfuscator\String\Converter;
 
+use TYPO3\Flow\Annotations as Flow;
+
 /**
  * Copyright (C) 2014 networkteam GmbH
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General
@@ -15,13 +17,21 @@ namespace Networkteam\Neos\MailObfuscator\String\Converter;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class RewriteAtCharConverter implements EmailLinkNameConverterInterface {
+class RewriteAtCharConverter implements EmailLinkNameConverterInterface
+{
 
-	/**
-	 * @param string $emailAddress
-	 * @return string
-	 */
-	public function convert($emailAddress) {
-		return str_replace('@', ' (at) ', $emailAddress);
-	}
+    /**
+     * @Flow\Inject(setting="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
+     * @var array
+     */
+    protected $replacementString;
+
+    /**
+     * @param string $emailAddress
+     * @return string
+     */
+    public function convert($emailAddress)
+    {
+        return str_replace('@', $this->replacementString, $emailAddress);
+    }
 }
