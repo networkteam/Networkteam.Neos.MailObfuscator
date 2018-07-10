@@ -15,10 +15,10 @@ include: Prototype/MailObfuscator.ts2
 # Extend the Page prototype to include the obfuscation JavaScript
 prototype(TYPO3.Neos:Page) {
 	body.javascripts {
-		networkteamNeosMailObfuscator = TYPO3.TypoScript:Tag {
+		networkteamNeosMailObfuscator = Neos.Fusion:Tag {
 			tagName = 'script'
 			attributes {
-				src = TYPO3.TypoScript:ResourceUri {
+				src = Neos.Fusion:ResourceUri {
 					path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.min.js'
 				}
 			}
