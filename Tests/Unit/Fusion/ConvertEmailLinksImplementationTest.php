@@ -59,7 +59,9 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
         $this->mockRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(['node' => $this->mockNode]));
 
         $this->convertEmailLinks->_set('runtime', $this->mockRuntime);
-        $this->convertEmailLinks->_set('linkNameConverter', new RewriteAtCharConverter());
+        $linkNameConverter = new RewriteAtCharConverter();
+        $linkNameConverter->setReplacementString(' (at) ');
+        $this->convertEmailLinks->_set('linkNameConverter', $linkNameConverter);
         $this->convertEmailLinks->_set('mailToHrefConverter', new Mailto2HrefObfuscatingConverter(15));
 
     }
