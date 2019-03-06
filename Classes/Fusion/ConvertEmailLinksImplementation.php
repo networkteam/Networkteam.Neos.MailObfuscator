@@ -24,9 +24,6 @@ use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterfac
 
 class ConvertEmailLinksImplementation extends AbstractFusionObject
 {
-    const PATTERN_MAIL_TO = '/(href=")mailto:([^"]*)/';
-
-    const PATTERN_MAIL_DISPLAY = '/(href="mailto:[^"]*">)([^<]*)/';
 
     /**
      * @var EmailLinkNameConverterInterface
@@ -64,13 +61,33 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
             return $text;
         }
         $self = $this;
-        $text = preg_replace_callback(self::PATTERN_MAIL_DISPLAY, function (array $matches) use ($self) {
+        $text = preg_replace_callback($this->getPatternMailDisplay(), function (array $matches) use ($self) {
             return $self->convertLinkName($matches);
         }, $text);
 
-        return preg_replace_callback(self::PATTERN_MAIL_TO, function (array $matches) use ($self) {
+        return preg_replace_callback($this->getPatternMailTo(), function (array $matches) use ($self) {
             return $self->convertMailLink($matches);
         }, $text);
+    }
+
+    /**
+     * Get PATTERN_MAIL_TO from fusion
+     *
+     * @return string
+     */
+    public function getPatternMailTo()
+    {
+        return $this->fusionValue('patternMailTo');
+    }
+
+    /**
+     * Get PATTERN_MAIL_DISPLAY from fusion
+     *
+     * @return string
+     */
+    public function getPatternMailDisplay()
+    {
+        return $this->fusionValue('patternMailDisplay');
     }
 
     /**
