@@ -50,4 +50,6 @@ function linkTo_UnCryptMailto(s, offset) {
     location.href = 'mailto:' + decryptString(s, offset);
 }
 
-global.linkTo_UnCryptMailto = linkTo_UnCryptMailto;
+if (typeof global !== 'undefined') {
+    global.linkTo_UnCryptMailto = linkTo_UnCryptMailto;
+}
