@@ -10,8 +10,8 @@
 # You should have received a copy of the GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-'Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInterface':
-  className: 'Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter'
+'Networkteam\Neos\MailObfuscator\Converter\EmailLinkNameConverterInterface':
+  className: 'Networkteam\Neos\MailObfuscator\Converter\RewriteAtCharConverter'
 
-'Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface':
-  className: 'Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter'
+'Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface':
+  className: 'Networkteam\Neos\MailObfuscator\Converter\Mailto2HrefObfuscatingConverter'

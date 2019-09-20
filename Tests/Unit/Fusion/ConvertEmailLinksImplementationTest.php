@@ -20,8 +20,8 @@ use Neos\ContentRepository\Domain\Service\Context;
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Fusion\Core\Runtime;
 use Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation;
-use Networkteam\Neos\MailObfuscator\String\Converter\Mailto2HrefObfuscatingConverter;
-use Networkteam\Neos\MailObfuscator\String\Converter\RewriteAtCharConverter;
+use Networkteam\Neos\MailObfuscator\Converter\Mailto2HrefObfuscatingConverter;
+use Networkteam\Neos\MailObfuscator\Converter\RewriteAtCharConverter;
 
 class ConvertEmailLinksImplementationTest extends UnitTestCase
 {
