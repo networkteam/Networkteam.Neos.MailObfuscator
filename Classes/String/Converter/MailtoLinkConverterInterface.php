@@ -1,5 +1,5 @@
 <?php
-namespace Networkteam\Neos\MailObfuscator\String\Converter;
+namespace Networkteam\Neos\MailObfuscator\Converter;
 
 /*
  * Copyright (C) 2014 networkteam GmbH
