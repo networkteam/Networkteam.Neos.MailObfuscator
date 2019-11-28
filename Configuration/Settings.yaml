@@ -15,7 +15,7 @@ Neos:
   Neos:
     fusion:
       autoInclude:
-        Networkteam.Neos.MailObfuscator: true
+        'Networkteam.Neos.MailObfuscator': true
 
 Networkteam:
   Neos:

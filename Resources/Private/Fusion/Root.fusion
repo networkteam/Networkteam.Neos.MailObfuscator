@@ -10,19 +10,12 @@
 # You should have received a copy of the GNU General Public License along with this program; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-include: Prototype/MailObfuscator.fusion
+##
+# Include all .fusion files
+#
 
-# Extend the Page prototype to include the obfuscation JavaScript
-prototype(Neos.Neos:Page) {
-    body.javascripts.networkteamNeosMailObfuscator = Neos.Fusion:Tag {
-        tagName = 'script'
-        attributes.src = Neos.Fusion:ResourceUri {
-            path = 'resource://Networkteam.Neos.MailObfuscator/Public/Scripts/nwt.mailobfuscation.min.js'
-        }
-    }
-}
+include: ./**/*.fusion
 
-# Obfuscate all node types extending Neos:Content by default
-prototype(Neos.Neos:Content) {
-    @process.networkteamNeosMailObfuscator = Networkteam.Neos:MailObfuscator
-}
+
+
+

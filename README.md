@@ -35,8 +35,8 @@ Install the composer package in your site package or distribution:
 $ composer require networkteam/neos-mailobfuscator
 ```
 
-There is no need for configuration, as a Fusion processor is attached to all prototypes extending
-`Neos.Neos:Content`.
+There is no need for configuration, as a Fusion processor is attached to `body` of `Neos.Neos:Page`.
+That means, that the complete content of body tag is obfuscated.
 
 ### Compatibility
 
@@ -52,7 +52,7 @@ See the following table for the correct plugin version to choose:
 Obfuscation can be disabled for specific node types by unsetting the processor:
 
 ```
-prototype(Vendor.MyPackage:MyNodeType) {
+prototype(Neos.Neos:Page) {
     @process.networkteamNeosMailObfuscator >
 }
 ```
@@ -60,8 +60,8 @@ prototype(Vendor.MyPackage:MyNodeType) {
 The JavaScript include can be disabled for custom minification:
 
 ```
-page = prototype(Neos.Neos:Page) {
-    body.javascripts.networkteamNeosMailObfuscator >
+prototype(Neos.Neos:Page) {
+    networkteamNeosMailObfuscator >
 }
 ```
 
