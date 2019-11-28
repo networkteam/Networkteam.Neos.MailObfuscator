@@ -19,8 +19,8 @@ use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use Networkteam\Neos\MailObfuscator\Exception;
-use Networkteam\Neos\MailObfuscator\String\Converter\EmailLinkNameConverterInterface;
-use Networkteam\Neos\MailObfuscator\String\Converter\MailtoLinkConverterInterface;
+use Networkteam\Neos\MailObfuscator\Converter\EmailLinkNameConverterInterface;
+use Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface;
 
 class ConvertEmailLinksImplementation extends AbstractFusionObject
 {
