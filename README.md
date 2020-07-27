@@ -65,7 +65,7 @@ prototype(Neos.Neos:Page) {
 }
 ```
 
-The replacment string for the at-sign (@) can be configured. The insertation is in HTML so it's also possible to replace it with something like an image.
+The replacement string for the at-sign (@) can be configured. It will be inserted as HTML without escaping, so it's possible to replace it with something like an image:
 
 ```yaml
 # Settings.yaml
