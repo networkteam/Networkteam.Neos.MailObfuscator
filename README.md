@@ -65,6 +65,16 @@ prototype(Neos.Neos:Page) {
 }
 ```
 
+The replacement string for the at-sign (@) can be configured. It will be inserted as HTML without escaping, so it's possible to replace it with something like an image:
+
+```yaml
+# Settings.yaml
+Networkteam:
+  Neos:
+    MailObfuscator:
+      atCharReplacementString: '<img src="https://example.com/at-icon.png" alt="at" />'
+```
+
 ## Acknowledgments
 
 Original email address obfuscation code by [TYPO3 CMS](http://www.typo3.org).
