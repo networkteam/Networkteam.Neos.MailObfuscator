@@ -100,6 +100,10 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             'email address with space at the beginning' => [
                 'Email <a href="mailto: test@example.com">test@example.com</a>',
                 'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+            ],
+            'email address with attributes after href' => [
+                'Email <a href="mailto: test@example.com" itemprop="email">test@example.com</a>',
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)" itemprop="email">test (at) example.com</a>'
             ]
         ];
     }
