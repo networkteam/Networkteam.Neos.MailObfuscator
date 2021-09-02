@@ -84,7 +84,7 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
         $this->assertSame($expectedText, $actualResult);
     }
 
-    public function emailTexts(): array
+    public function emailTexts()
     {
         return [
             'just some text not to touch' => [
