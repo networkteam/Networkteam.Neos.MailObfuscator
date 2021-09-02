@@ -45,9 +45,9 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
      */
     protected $mockNode;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->convertEmailLinks = $this->getAccessibleMock(ConvertEmailLinksImplementation::class, ['getValue'], [], '', false);
+        $this->convertEmailLinks = $this->getAccessibleMock(ConvertEmailLinksImplementation::class, ['fusionValue'], [], '', false);
 
         $this->mockContext = $this->getMockBuilder(Context::class)->disableOriginalConstructor()->getMock();
         $this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
@@ -63,7 +63,6 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
         $linkNameConverter->setReplacementString(' (at) ');
         $this->convertEmailLinks->_set('linkNameConverter', $linkNameConverter);
         $this->convertEmailLinks->_set('mailToHrefConverter', new Mailto2HrefObfuscatingConverter(15));
-
     }
 
     /**
@@ -72,13 +71,20 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
      */
     public function emailsAreConverted($rawText, $expectedText)
     {
-        $this->convertEmailLinks->expects($this->atLeastOnce())->method('getValue')->will($this->returnValue($rawText));
+        $this->convertEmailLinks
+            ->expects(self::atLeastOnce())
+            ->method('fusionValue')
+            ->will($this->returnValueMap([
+                ['value', $rawText],
+                ['patternMailTo', '/(href=")mailto:([^"]*)/'],
+                ['patternMailDisplay', '/(href="mailto:[^>]*>)([^<]*)/']
+            ]));
 
         $actualResult = $this->convertEmailLinks->evaluate();
         $this->assertSame($expectedText, $actualResult);
     }
 
-    public function emailTexts()
+    public function emailTexts(): array
     {
         return [
             'just some text not to touch' => [
@@ -100,6 +106,10 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             'email address with space at the beginning' => [
                 'Email <a href="mailto: test@example.com">test@example.com</a>',
                 'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+            ],
+            'email address with attributes after href' => [
+                'Email <a href="mailto: test@example.com" itemprop="email">test@example.com</a>',
+                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)" itemprop="email">test (at) example.com</a>'
             ]
         ];
     }

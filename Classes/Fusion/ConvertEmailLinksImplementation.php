@@ -50,7 +50,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
             return $text;
         }
         if (!is_string($text)) {
-            throw new Exception(sprintf('Only strings can be processed by this TypoScript object, given: "%s".', gettype($text)), 1409659552);
+            throw new Exception(sprintf('Only strings can be processed by this Fusion object, given: "%s".', gettype($text)), 1409659552);
         }
         $currentContext = $this->getRuntime()->getCurrentContext();
         $node = $currentContext['node'];
