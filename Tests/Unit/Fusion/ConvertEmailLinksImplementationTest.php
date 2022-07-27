@@ -86,6 +86,10 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
 
     public function emailTexts(): array
     {
+
+        $htmlEncodedDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)');
+        $htmlEncodedSecondDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'uddqpgOtmpbeat-rdb\', -15)');
+
         return [
             'just some text not to touch' => [
                 ' this Is some string with line' . chr(10) . ' breaks, special chärß and leading/trailing space  ',
@@ -93,11 +97,11 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ],
             'single mail link in text' => [
                 'Email <a href="mailto:test@example.com">test@example.com</a>',
-                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+                'Email <a href="' . $htmlEncodedDecryptionString . '">test (at) example.com</a>'
             ],
             'multiple mail links in text' => [
                 'Email <a href="mailto:test@example.com">test@example.com</a> and afterwards another email <a href="mailto:foobar@example.com">foobar@example.com</a>',
-                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a> and afterwards another email <a href="javascript:linkTo_UnCryptMailto(\'uddqpgOtmpbeat-rdb\', -15)">foobar (at) example.com</a>'
+                'Email <a href="' . $htmlEncodedDecryptionString . '">test (at) example.com</a> and afterwards another email <a href="' . $htmlEncodedSecondDecryptionString . '">foobar (at) example.com</a>'
             ],
             'email address outside of link' => [
                 'Email test@example.com should not be replaced',
@@ -105,11 +109,11 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ],
             'email address with space at the beginning' => [
                 'Email <a href="mailto: test@example.com">test@example.com</a>',
-                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)">test (at) example.com</a>'
+                'Email <a href="' . $htmlEncodedDecryptionString . '">test (at) example.com</a>'
             ],
             'email address with attributes after href' => [
                 'Email <a href="mailto: test@example.com" itemprop="email">test@example.com</a>',
-                'Email <a href="javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)" itemprop="email">test (at) example.com</a>'
+                'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email">test (at) example.com</a>'
             ]
         ];
     }
