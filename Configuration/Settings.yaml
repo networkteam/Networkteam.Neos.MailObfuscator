@@ -17,6 +17,10 @@ Neos:
       autoInclude:
         'Networkteam.Neos.MailObfuscator': true
 
+  Fusion:
+    defaultContext:
+      Networkteam.Neos.MailObfuscator: 'Networkteam\Neos\MailObfuscator\Eel\MailObfuscator'
+
 Networkteam:
   Neos:
     MailObfuscator:
