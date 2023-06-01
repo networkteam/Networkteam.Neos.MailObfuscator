@@ -2,14 +2,27 @@
 
 namespace Networkteam\Neos\MailObfuscator\Eel;
 
+use Neos\Flow\Annotations as Flow;
 use Neos\Eel\ProtectedContextAwareInterface;
-use Networkteam\Neos\MailObfuscator\Converter\Mailto2HrefObfuscatingConverter;
-use Networkteam\Neos\MailObfuscator\Converter\RewriteAtCharConverter;
+use Networkteam\Neos\MailObfuscator\Converter\EmailLinkNameConverterInterface;
+use Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface;
 
 /**
  * Eel helpers to provide MailObfuscator functions
  */
-class MailObfuscator extends RewriteAtCharConverter implements ProtectedContextAwareInterface {
+class MailObfuscator implements ProtectedContextAwareInterface {
+
+    /**
+     * @var EmailLinkNameConverterInterface
+     * @Flow\Inject
+     */
+    protected $emailLinkNameConverter;
+
+    /**
+     * @var MailtoLinkConverterInterface
+     * @Flow\Inject
+     */
+    protected $mailtoLinkConverter;
 
     /**
      * Convert at Character
@@ -18,7 +31,7 @@ class MailObfuscator extends RewriteAtCharConverter implements ProtectedContextA
      * @return string
      */
     public function convertAtChar($email = false) {
-        return $this->convert($email);
+        return $this->emailLinkNameConverter->convert($email);
     }
 
     /**
@@ -28,7 +41,7 @@ class MailObfuscator extends RewriteAtCharConverter implements ProtectedContextA
      * @return string
      */
     public function convertMailto2Href($email = false) {
-        return (new Mailto2HrefObfuscatingConverter())->convert($email);
+        return $this->mailtoLinkConverter->convert($email);
     }
 
     /**
