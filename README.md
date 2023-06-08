@@ -75,6 +75,23 @@ Networkteam:
       atCharReplacementString: '<img src="https://example.com/at-icon.png" alt="at" />'
 ```
 
+## EEL Helpers
+There are Eel helpers available to use MailObfuscator functions in Fusion
+
+```
+// Convert @ Character
+${Networkteam.Neos.MailObfuscator.convertAtChar('foo@example.com')}
+// returns: foo (at) example.com
+
+```
+
+```
+// Convert Mail to Href
+${Networkteam.Neos.MailObfuscator.convertMailto2Href('foo@example.com')}
+// returns javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)
+```
+
+
 ## Acknowledgments
 
 Original email address obfuscation code by [TYPO3 CMS](http://www.typo3.org).
