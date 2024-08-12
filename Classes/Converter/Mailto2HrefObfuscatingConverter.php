@@ -58,6 +58,9 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
      */
     protected function encryptEmail(string $string, int $randomOffset): string
     {
+        // Decode HTML entities to ensure & is not encoded as &amp;
+        $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5);
+
         $out = '';
         // like str_rot13() but with a variable offset and a wider character range
         $len = strlen($string);
