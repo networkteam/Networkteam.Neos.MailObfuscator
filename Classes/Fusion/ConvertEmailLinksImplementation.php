@@ -119,6 +119,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
      */
     public function convertMailLink($matches)
     {
+        // make sure that URL parameter dividers (`&`) are not encoded
         $email = html_entity_decode(trim($matches[2]), ENT_QUOTES | ENT_HTML5);
         $replacedHrefContent = $this->mailToHrefConverter->convert($email);
 
