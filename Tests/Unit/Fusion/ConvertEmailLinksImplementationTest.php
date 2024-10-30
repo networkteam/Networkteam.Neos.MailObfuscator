@@ -77,14 +77,14 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ->will($this->returnValueMap([
                 ['value', $rawText],
                 ['patternMailTo', '/(href=")mailto:([^"]*)/'],
-                ['patternMailDisplay', '|(href="mailto:[^>]*>)(.*)(<\/a>)|']
+                ['patternMailDisplay', '|(href="mailto:[^>]*>)(.*?)(<\/a>)|']
             ]));
 
         $actualResult = $this->convertEmailLinks->evaluate();
         $this->assertSame($expectedText, $actualResult);
     }
 
-    public function emailTexts(): array
+    static public function emailTexts(): array
     {
 
         $htmlEncodedDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\',-15)', ENT_NOQUOTES);

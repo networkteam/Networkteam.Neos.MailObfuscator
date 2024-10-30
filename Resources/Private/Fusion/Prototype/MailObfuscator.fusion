@@ -18,7 +18,7 @@ prototype(Networkteam.Neos:MailObfuscator) {
     @class = 'Networkteam\\Neos\\MailObfuscator\\Fusion\\ConvertEmailLinksImplementation'
 
     patternMailTo = '/(href=")mailto:([^"]*)/'
-    patternMailDisplay = '|(href="mailto:[^>]*>)(.*)(<\/a>)|'
+    patternMailDisplay = '|(href="mailto:[^>]*>)(.*?)(<\/a>)|'
 
     value = ${value}
     node = ${node}
