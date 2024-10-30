@@ -77,18 +77,18 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ->will($this->returnValueMap([
                 ['value', $rawText],
                 ['patternMailTo', '/(href=")mailto:([^"]*)/'],
-                ['patternMailDisplay', '/(href="mailto:[^>]*>)([^<]*)/']
+                ['patternMailDisplay', '|(href="mailto:[^>]*>)(.*?)(<\/a>)|']
             ]));
 
         $actualResult = $this->convertEmailLinks->evaluate();
         $this->assertSame($expectedText, $actualResult);
     }
 
-    public function emailTexts(): array
+    static public function emailTexts(): array
     {
 
-        $htmlEncodedDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\', -15)');
-        $htmlEncodedSecondDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'uddqpgOtmpbeat-rdb\', -15)');
+        $htmlEncodedDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'ithiOtmpbeat-rdb\',-15)', ENT_NOQUOTES);
+        $htmlEncodedSecondDecryptionString = htmlspecialchars('javascript:linkTo_UnCryptMailto(\'uddqpgOtmpbeat-rdb\',-15)', ENT_NOQUOTES);
 
         return [
             'just some text not to touch' => [
@@ -114,6 +114,14 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             'email address with attributes after href' => [
                 'Email <a href="mailto: test@example.com" itemprop="email">test@example.com</a>',
                 'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email">test (at) example.com</a>'
+            ],
+            'email address enclosed by HTML tag' => [
+                'Email <a href="mailto: test@example.com" itemprop="email"><strong>test@example.com</strong></a>',
+                'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email"><strong>test (at) example.com</strong></a>'
+            ],
+            'email address in link tag enclosed by multiple styling tags' => [
+                'Email <a href="mailto: test@example.com" itemprop="email"><i class="fa-light fa-paper-plane"></i><span class="btn__text">test@example.com</span></a>',
+                'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email"><i class="fa-light fa-paper-plane"></i><span class="btn__text">test (at) example.com</span></a>'
             ]
         ];
     }
