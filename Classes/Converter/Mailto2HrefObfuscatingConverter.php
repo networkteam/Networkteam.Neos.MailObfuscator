@@ -44,7 +44,7 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
             $randomOffset = random_int(1, 26);
         }
 
-        return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress, $randomOffset) . '\', -' . $randomOffset . ')';
+        return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress, $randomOffset) . '\',-' . $randomOffset . ')';
     }
 
     /**
