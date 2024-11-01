@@ -77,7 +77,7 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             ->will($this->returnValueMap([
                 ['value', $rawText],
                 ['patternMailTo', '/(href=")mailto:([^"]*)/'],
-                ['patternMailDisplay', '|(href="mailto:[^>]*>)(.*?)(<\/a>)|']
+                ['patternMailDisplay', '/(href="mailto:[^>]*>)((.|\n)*?)(<\/a>)/']
             ]));
 
         $actualResult = $this->convertEmailLinks->evaluate();
@@ -122,6 +122,14 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
             'email address in link tag enclosed by multiple styling tags' => [
                 'Email <a href="mailto: test@example.com" itemprop="email"><i class="fa-light fa-paper-plane"></i><span class="btn__text">test@example.com</span></a>',
                 'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email"><i class="fa-light fa-paper-plane"></i><span class="btn__text">test (at) example.com</span></a>'
+            ],
+            'email address in link tag enclosed by multiple styling tags and new line characters' => [
+                'Email <a href="mailto: test@example.com" itemprop="email">
+    <i class="fa-light fa-paper-plane"></i>
+    <span class="btn__text">test@example.com</span>
+</a>',
+                'Email <a href="' . $htmlEncodedDecryptionString . '" itemprop="email"><i class="fa-light fa-paper-plane"></i>
+    <span class="btn__text">test (at) example.com</span></a>'
             ]
         ];
     }
