@@ -107,9 +107,10 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
      */
     public function convertLinkName(array $matches)
     {
-        $replacedEmail = $this->linkNameConverter->convert(trim($matches[2]));
-
-        return $matches[1] . $replacedEmail . ($matches[3] ?? '');
+        $lastMatch = array_pop($matches);
+        $linkNameMatch = trim($matches[2]);
+        $replacedEmail = $this->linkNameConverter->convert($linkNameMatch);
+        return $matches[1] . $replacedEmail . ($lastMatch ?? '');
     }
 
     /**

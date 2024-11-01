@@ -7,6 +7,9 @@
         "neos/neos": "^3.0 || ^4.0 || ^5.0 || ^7.0 || ^8.0",
         "guzzlehttp/guzzle": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~9.1"
+    },
     "autoload": {
         "psr-4": {
             "Networkteam\\Neos\\MailObfuscator\\": "Classes"
