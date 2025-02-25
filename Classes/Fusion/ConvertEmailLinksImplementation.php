@@ -15,7 +15,7 @@ namespace Networkteam\Neos\MailObfuscator\Fusion;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Flow\Annotations as Flow;
 use Neos\Fusion\FusionObjects\AbstractFusionObject;
 use Networkteam\Neos\MailObfuscator\Exception;
@@ -54,10 +54,10 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
         }
         $currentContext = $this->getRuntime()->getCurrentContext();
         $node = $currentContext['node'];
-        if (!$node instanceof NodeInterface) {
+        if (!$node instanceof Node) {
             throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
         }
-        if ($node->getContext()->getWorkspaceName() !== 'live') {
+        if (!$node->workspaceName->isLive()) {
             return $text;
         }
         $self = $this;

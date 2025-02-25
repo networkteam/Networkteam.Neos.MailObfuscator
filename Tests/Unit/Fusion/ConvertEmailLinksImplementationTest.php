@@ -15,13 +15,26 @@ namespace Networkteam\Neos\MailObfuscator\Tests\Unit\Fusion;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Service\Context;
+use Neos\ContentRepository\Core\DimensionSpace\DimensionSpacePoint;
+use Neos\ContentRepository\Core\DimensionSpace\OriginDimensionSpacePoint;
+use Neos\ContentRepository\Core\Feature\NodeModification\Dto\SerializedPropertyValues;
+use Neos\ContentRepository\Core\Infrastructure\Property\PropertyConverter;
+use Neos\ContentRepository\Core\NodeType\NodeTypeName;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\NodeTags;
+use Neos\ContentRepository\Core\Projection\ContentGraph\PropertyCollection;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Timestamps;
+use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
+use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
+use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateClassification;
+use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
+use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
 use Neos\Flow\Tests\UnitTestCase;
 use Neos\Fusion\Core\Runtime;
-use Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation;
 use Networkteam\Neos\MailObfuscator\Converter\Mailto2HrefObfuscatingConverter;
 use Networkteam\Neos\MailObfuscator\Converter\RewriteAtCharConverter;
+use Networkteam\Neos\MailObfuscator\Fusion\ConvertEmailLinksImplementation;
+use Symfony\Component\Serializer\Serializer;
 
 class ConvertEmailLinksImplementationTest extends UnitTestCase
 {
@@ -35,25 +48,23 @@ class ConvertEmailLinksImplementationTest extends UnitTestCase
      */
     protected $mockRuntime;
 
-    /**
-     * @var Context
-     */
-    protected $mockContext;
-
-    /**
-     * @var NodeInterface
-     */
-    protected $mockNode;
-
     public function setUp(): void
     {
         $this->convertEmailLinks = $this->getAccessibleMock(ConvertEmailLinksImplementation::class, ['fusionValue'], [], '', false);
 
-        $this->mockContext = $this->getMockBuilder(Context::class)->disableOriginalConstructor()->getMock();
-        $this->mockContext->expects($this->any())->method('getWorkspaceName')->will($this->returnValue('live'));
-
-        $this->mockNode = $this->getMockBuilder(NodeInterface::class)->getMock();
-        $this->mockNode->expects($this->any())->method('getContext')->will($this->returnValue($this->mockContext));
+        $this->mockNode = Node::create(
+            ContentRepositoryId::fromString('mock'),
+            WorkspaceName::forLive(),
+            DimensionSpacePoint::fromArray([]),
+            NodeAggregateId::create(), OriginDimensionSpacePoint::createWithoutDimensions(),
+            NodeAggregateClassification::CLASSIFICATION_REGULAR,
+            NodeTypeName::fromString('Some.Node:Type'),
+            new PropertyCollection(SerializedPropertyValues::createEmpty(), new PropertyConverter(new Serializer())),
+            null,
+            NodeTags::createEmpty(),
+            Timestamps::create(new \DateTimeImmutable(), new \DateTimeImmutable(), null, null),
+            VisibilityConstraints::default()
+        );
 
         $this->mockRuntime = $this->getMockBuilder(Runtime::class)->disableOriginalConstructor()->getMock();
         $this->mockRuntime->expects($this->any())->method('getCurrentContext')->will($this->returnValue(['node' => $this->mockNode]));
