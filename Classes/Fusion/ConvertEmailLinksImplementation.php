@@ -55,7 +55,7 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
         $currentContext = $this->getRuntime()->getCurrentContext();
         $node = $currentContext['node'];
         if (!$node instanceof Node) {
-            throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1409659564);
+            throw new Exception(sprintf('The current node must be an instance of Node, given: "%s".', gettype($text)), 1409659564);
         }
         if (!$node->workspaceName->isLive()) {
             return $text;
