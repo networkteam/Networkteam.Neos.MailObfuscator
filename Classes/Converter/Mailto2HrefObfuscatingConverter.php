@@ -28,7 +28,7 @@ class Mailto2HrefObfuscatingConverter implements MailtoLinkConverterInterface
     /**
      * @param int $randomOffset If not-null a fixed random offset will be used (useful for testing, but not for production)
      */
-    public function __construct(int $randomOffset = null)
+    public function __construct(?int $randomOffset = null)
     {
         $this->randomOffset = $randomOffset;
     }
