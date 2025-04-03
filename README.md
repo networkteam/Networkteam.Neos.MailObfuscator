@@ -43,8 +43,9 @@ That means, that the complete content of body tag is obfuscated.
 See the following table for the correct plugin version to choose:
 
 | Neos CMS | Plugin version |
-| -------- | -------------- |
-| >= 3.0   | 2.x            |
+|----------|----------------|
+| >= 9.0   | 4.x            |
+| >= 3.0   | 2.x, 3.x       |
 | < 3.0    | 1.x            |
 
 ## Configuration
