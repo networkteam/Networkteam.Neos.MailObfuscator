@@ -18,6 +18,7 @@ namespace Networkteam\Neos\MailObfuscator\Fusion;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Fusion\FusionObjects\AbstractFusionObject;
+use Networkteam\Neos\MailObfuscator\Converter\StructuredLinkConverterInterface;
 use Networkteam\Neos\MailObfuscator\Exception;
 use Networkteam\Neos\MailObfuscator\Converter\EmailLinkNameConverterInterface;
 use Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface;
@@ -66,7 +67,17 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
         }, $text);
 
         return preg_replace_callback($this->getPatternMailTo(), function (array $matches) use ($self) {
-            return $self->convertMailLink($matches);
+            $result = $self->convertMailLink($matches);
+            if ($this->mailToHrefConverter instanceof StructuredLinkConverterInterface) {
+                list($token, $vector) = explode("|", $result);
+                // If `patternMailTo` ends with quote character ("), the quote must be added to result string to not break HTML validity
+                $format = 'href="#" data-mailto-token="%s" data-mailto-vector="%d';
+                if (str_ends_with($matches[0], '"')) {
+                    $format .= '"';
+                }
+                $result = sprintf($format, $token, $vector);
+            }
+            return $result;
         }, $text);
     }
 
@@ -124,7 +135,12 @@ class ConvertEmailLinksImplementation extends AbstractFusionObject
         $email = html_entity_decode(trim($matches[2]), ENT_QUOTES | ENT_HTML5);
         $replacedHrefContent = $this->mailToHrefConverter->convert($email);
 
-        $uri = new \GuzzleHttp\Psr7\Uri($replacedHrefContent);
-        return $matches[1] . (string)$uri;
+        if ($this->mailToHrefConverter instanceof StructuredLinkConverterInterface) {
+            $result = $replacedHrefContent;
+        } else {
+            $uri = new \GuzzleHttp\Psr7\Uri($replacedHrefContent);
+            $result = $matches[1] . (string)$uri;
+        }
+        return $result;
     }
 }
