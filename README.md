@@ -122,6 +122,15 @@ ${Networkteam.Neos.MailObfuscator.convertMailto2Href('foo@example.com')}
 ```
 
 
+## Development
+
+To compile JavaScript via yarn run:
+
+```bash
+yarn install
+yarn build
+```
+
 ## Acknowledgments
 
 Original email address obfuscation code by [TYPO3 CMS](http://www.typo3.org).
