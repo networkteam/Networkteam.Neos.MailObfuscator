@@ -60,14 +60,14 @@ abstract class AbstractObfuscatingConverter
      *
      * This method is taken from TYPO3 CMS and slightly improved.
      *
-     * @param integer $n Ordinal of input character
-     * @param integer $start Start of range
-     * @param integer $end End of range
-     * @param integer $offset Offset
+     * @param int $n Ordinal of input character
+     * @param int $start Start of range
+     * @param int $end End of range
+     * @param int $offset Offset
      *
      * @return string encoded/decoded version of character
      */
-    protected function encryptCharcode($n, $start, $end, $offset): string
+    protected function encryptCharcode(int $n, int $start, int $end, int $offset): string
     {
         $n += $offset % ($end - $start + 1);
         if ($offset > 0 && $n > $end) {

@@ -20,10 +20,6 @@ interface MailtoLinkConverterInterface
     /**
      * The parameter given is the email address without the mailto:
      * As return value the replacement for the whole href attribute is expected
-     *
-     * @param string $mailAddress
-     *
-     * @return string
      */
-    public function convert($mailAddress);
+    public function convert(string $mailAddress): string;
 }

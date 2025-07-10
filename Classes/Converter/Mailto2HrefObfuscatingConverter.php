@@ -34,7 +34,7 @@ class Mailto2HrefObfuscatingConverter extends AbstractObfuscatingConverter imple
     /**
      * @inheritDoc
      */
-    public function convert($mailAddress)
+    public function convert(string $mailAddress): string
     {
         if ($this->randomOffset !== null) {
             $randomOffset = $this->randomOffset;

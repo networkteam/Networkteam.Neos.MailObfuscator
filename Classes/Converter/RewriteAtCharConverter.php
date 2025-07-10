@@ -19,27 +19,19 @@ use Neos\Flow\Annotations as Flow;
 
 class RewriteAtCharConverter implements EmailLinkNameConverterInterface
 {
-
-
     /**
      * @Flow\InjectConfiguration(path="atCharReplacementString", package="Networkteam.Neos.MailObfuscator")
      * @var array
      */
     protected $replacementString;
 
-    /**
-     * @param string $emailAddress
-     * @return string
-     */
-    public function convert($emailAddress)
+    public function convert(string $emailAddress): string
     {
         return str_replace('@', $this->replacementString, $emailAddress);
     }
 
-    /**
-     * @param string $replacementString
-     */
-    public function setReplacementString($replacementString) {
+    public function setReplacementString(string $replacementString)
+    {
         $this->replacementString = $replacementString;
     }
 }

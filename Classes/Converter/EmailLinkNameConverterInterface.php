@@ -19,10 +19,6 @@ interface EmailLinkNameConverterInterface
 {
     /**
      * Return a string which should be displayed instead of the original email address
-     *
-     * @param string $emailAddress
-     *
-     * @return string
      */
-    public function convert($emailAddress);
+    public function convert(string $emailAddress): string;
 }

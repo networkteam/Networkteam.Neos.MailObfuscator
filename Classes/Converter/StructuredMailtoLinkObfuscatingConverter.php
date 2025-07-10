@@ -33,11 +33,9 @@ class StructuredMailtoLinkObfuscatingConverter extends AbstractObfuscatingConver
     /**
      * Encrypt given email address and returns a string with encrypted email (token) and used offset (vector) separated by pipe character (|).
      *
-     * @param $mailAddress
-     * @return string
      * @throws \Random\RandomException
      */
-    public function convert($mailAddress)
+    public function convert(string $mailAddress): string
     {
         if ($this->randomOffset !== null) {
             $vector = $this->randomOffset;
