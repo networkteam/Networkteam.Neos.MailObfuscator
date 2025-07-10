@@ -15,10 +15,10 @@ namespace Networkteam\Neos\MailObfuscator\Converter;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-interface EmailLinkNameConverterInterface
+/**
+ * Converts content into structured data such as a string with encrypted content (token) and used offset (vector) separated by pipe character (|).
+ */
+interface StructuredLinkConverterInterface
 {
-    /**
-     * Return a string which should be displayed instead of the original email address
-     */
-    public function convert(string $emailAddress): string;
+
 }

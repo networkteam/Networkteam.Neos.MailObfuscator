@@ -15,9 +15,8 @@ namespace Networkteam\Neos\MailObfuscator\Converter;
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-class Mailto2HrefObfuscatingConverter extends AbstractObfuscatingConverter implements MailtoLinkConverterInterface
+class StructuredMailtoLinkObfuscatingConverter extends AbstractObfuscatingConverter implements MailtoLinkConverterInterface, StructuredLinkConverterInterface
 {
-
     /**
      * @var int
      */
@@ -32,16 +31,19 @@ class Mailto2HrefObfuscatingConverter extends AbstractObfuscatingConverter imple
     }
 
     /**
-     * @inheritDoc
+     * Encrypt given email address and returns a string with encrypted email (token) and used offset (vector) separated by pipe character (|).
+     *
+     * @throws \Random\RandomException
      */
     public function convert(string $mailAddress): string
     {
         if ($this->randomOffset !== null) {
-            $randomOffset = $this->randomOffset;
+            $vector = $this->randomOffset;
         } else {
-            $randomOffset = random_int(1, 26);
+            $vector = random_int(1, 26);
         }
+        $token = $this->encryptEmail($mailAddress, $vector);
 
-        return 'javascript:linkTo_UnCryptMailto(\'' . $this->encryptEmail($mailAddress, $randomOffset) . '\',-' . $randomOffset . ')';
+        return sprintf('%s|%s', $token, $vector);
     }
 }

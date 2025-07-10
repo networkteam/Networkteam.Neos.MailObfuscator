@@ -1,6 +1,6 @@
 # Neos MailObfuscator
 
-In order to make life for spammers more difficult, this package provides an obfuscation of email addresses.
+To make life for spammers more difficult, this package provides obfuscation of email addresses.
 The email address is obfuscated by a rot13 like algorithm with random offsets.
 
 When the link is clicked, the email address is unobfuscated by the same algorithm in JavaScript:
@@ -25,6 +25,13 @@ will become
 
 ```html
 <a href="javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)">Contact us</a>
+```
+
+If content security policy is applied in your website use the `StructuredMailtoLinkObfuscatingConverter` implementation.
+This does not add inline JavaScript into `href` attribute, but adds data attributes for token and vector values.
+
+```html
+<a href="#" data-mailto-token="obfuscatedEmail" data-mailto-vector="randomNumber">Contact us</a>
 ```
 
 ## Installation
@@ -75,6 +82,29 @@ Networkteam:
       atCharReplacementString: '<img src="https://example.com/at-icon.png" alt="at" />'
 ```
 
+### Content Security Policy (CSP)
+
+If you have CSP enabled in your project, the inline JavaScript code in `href` attribute of an obfuscated link will lead to
+JavaScript error in browser console when clicking the link:
+
+```
+Refused to run the JavaScript URL because it violates the following Content Security Policy directive: "...".
+```
+
+To bypass this error, you can use a different MailtoLinkObfuscatingConverter implementation. This will skip adding
+inline JavaScript to `href` attribute and add data attributes holding encrypted email (token) and used offest (vector) instead.
+The JavaScript implementation handles the data attributes and decrypts the value.
+
+To enable this behavior, you have to configure another implementation for `\Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface`.
+Do so by adding the following lines to your `Objects.yaml`:
+
+_Objects.yaml_
+
+```
+'Networkteam\Neos\MailObfuscator\Converter\MailtoLinkConverterInterface':
+  className: 'Networkteam\Neos\MailObfuscator\Converter\StructuredMailtoLinkObfuscatingConverter'
+```
+
 ## EEL Helpers
 There are Eel helpers available to use MailObfuscator functions in Fusion
 
@@ -91,6 +121,15 @@ ${Networkteam.Neos.MailObfuscator.convertMailto2Href('foo@example.com')}
 // returns javascript:linkTo_UnCryptMailto('obfuscatedEmail', -randomNumber)
 ```
 
+
+## Development
+
+To compile JavaScript via yarn run:
+
+```bash
+yarn install
+yarn build
+```
 
 ## Acknowledgments
 
