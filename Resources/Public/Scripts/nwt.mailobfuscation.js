@@ -53,31 +53,30 @@ if (typeof global !== 'undefined') {
     global.linkTo_UnCryptMailto = linkTo_UnCryptMailto;
 }
 
-(function() {
-    function delegateEvent(
-        event,
-        selector,
-        callback
-    ) {
-        document.addEventListener(event, function(evt) {
-            // let node = evt.target; node; node = node.parentNode !== document ? node.parentNode : null
-            for (let node = evt.target; node; node = node.parentNode !== document ? node.parentNode : false) {
-                if ('matches' in node) {
-                    const targetElement = node;
-                    if (targetElement.matches(selector)) {
-                        callback(evt, targetElement);
-                    }
+window.linkTo_UnCryptMailto = linkTo_UnCryptMailto;
+
+function delegateEvent(
+    event,
+    selector,
+    callback
+) {
+    document.addEventListener(event, function(evt) {
+        for (let node = evt.target; node; node = node.parentNode !== document ? node.parentNode : false) {
+            if ('matches' in node) {
+                const targetElement = node;
+                if (targetElement.matches(selector)) {
+                    callback(evt, targetElement);
                 }
             }
-        });
-    }
-
-    delegateEvent('click', 'a[data-mailto-token][data-mailto-vector]', function(evt, evtTarget) {
-        evt.preventDefault();
-        const dataset = evtTarget.dataset;
-        const value = dataset.mailtoToken;
-        const offset = parseInt(dataset.mailtoVector, 10) * -1;
-
-        linkTo_UnCryptMailto(value, offset)
+        }
     });
-})();
+}
+
+delegateEvent('click', 'a[data-mailto-token][data-mailto-vector]', function(evt, evtTarget) {
+    evt.preventDefault();
+    const dataset = evtTarget.dataset;
+    const value = dataset.mailtoToken;
+    const offset = parseInt(dataset.mailtoVector, 10) * -1;
+
+    linkTo_UnCryptMailto(value, offset)
+});

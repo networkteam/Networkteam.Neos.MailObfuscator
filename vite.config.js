@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
 
 export default defineConfig({
-    build: {
-        lib: {
-            name: 'nwt.mailobfuscation',
-            entry: 'Resources/Public/Scripts/nwt.mailobfuscation.js',
-            formats: ['umd'],
-            fileName: (format, entryName) => `${entryName}.min.js`
-        },
-        outDir: 'Resources/Public/Scripts',
-        emptyOutDir: false,
-        copyPublicDir: false,
-    }
-})
+  build: {
+    outDir: "Resources/Public/Scripts",
+    lib: {
+      name: "nwt.mailobfuscation",
+      entry: "Resources/Public/Scripts/nwt.mailobfuscation.js",
+      formats: ["iife"],
+      fileName: (format, entryName) => `${entryName}.min.js`,
+    },
+    emptyOutDir: false,
+    copyPublicDir: false,
+  },
+});

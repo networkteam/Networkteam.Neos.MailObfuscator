@@ -3,12 +3,11 @@
   "packages": ["nodejs@22"],
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
+      "devbox run assets:init"
     ],
     "scripts": {
-      "test": [
-        "echo \"Error: no test specified\" && exit 1"
-      ]
+      "assets:init": "yarn",
+      "assets:build": "yarn build"
     }
   },
   "env": {
